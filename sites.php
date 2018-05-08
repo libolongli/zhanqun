@@ -61,6 +61,7 @@
 	function get_data($db){
 		$data = array();
 		$ar = $db->db_getAll('SELECT * FROM wp_sites');
+		if(!$ar) $ar = array();
 		foreach ($ar as  &$value) {
 			$value['op'] = "<a href='http://www.{$value['domain']}/wp-admin/' target='_blank'>后台登陆</a>";
 		}
