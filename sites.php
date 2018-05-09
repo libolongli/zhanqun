@@ -214,7 +214,7 @@
 	 * @DateTime 2018-05-03T18:17:14+0800
 	 * @return   [type]                   [description]
 	 */
-	function init_bash($data){
+	function init_bash(){
 		//挪动nginx配置文件
 		$content.= " /usr/local/nginx/sbin/nginx -s reload \n";
 		file_put_contents('zhandian.sh',$content);
