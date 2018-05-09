@@ -80,7 +80,17 @@
 	 */
 	function del_data($db){
 		$data = $_POST;
-		$row = $db->db_getRow("SELECT * FROM wp_sites WHERE id='{$data['id']}'");
+			
+		$ids = explode(',',$data['id']);
+		foreach ($ids as  $id) {
+			 del_single($db,$id);
+		}
+
+		exit(json_encode(array('status'=>true,'msg'=>'删除成功')));
+	}
+
+	function del_single($db,$id){
+		$row = $db->db_getRow("SELECT * FROM wp_sites WHERE id='$id'");
 		//删除对应的表
 		$prefix = str_replace('_', '\_', $row['prefix']);
 		$sql = "SHOW TABLES LIKE '{$prefix}%'";
@@ -97,9 +107,8 @@
 
 		$sql = "DELETE FROM  wp_sites WHERE id = {$row['id']}";
 		$id = $db->db_delete($sql);
-
-		exit(json_encode(array('status'=>true,'msg'=>'添加成功')));
 	}
+
 
 	/**
 	 * [add_data 添加数据]
