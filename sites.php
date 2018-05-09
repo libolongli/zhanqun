@@ -133,6 +133,8 @@
 
 		//初始化nginx 配置文件
 		init_nginx($db);
+
+		init_bash();
 		exit(json_encode(array('status'=>true,'msg'=>'添加成功')));
 	}
 
@@ -155,6 +157,7 @@
 		}
 
 		foreach ($tables as  $table) {
+			if($table =='wp_sites') continue;
 			$otable = str_replace("{$source}_",'',$table);
 			$sql1 = "CREATE TABLE {$target}{$otable} LIKE $table";
 			$db->db_query($sql1);
@@ -162,9 +165,9 @@
 			$db->db_query($sql2);
 		}
 
-		$sql = "UPDATE {$target}options SET option_value = 'www.{$domain}' WHERE option_id = 1";
+		$sql = "UPDATE {$target}options SET option_value = 'http://www.{$domain}' WHERE option_id = 1";
 		$db->db_query($sql);
-		$sql = "UPDATE {$target}options SET option_value = 'www.{$domain}' WHERE option_id = 2";
+		$sql = "UPDATE {$target}options SET option_value = 'http://www.{$domain}' WHERE option_id = 2";
 		$db->db_query($sql);
 		$sql = "UPDATE {$target}options SET option_value = '{$title}' WHERE option_id = 3";
 		$db->db_query($sql);
