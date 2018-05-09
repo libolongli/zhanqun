@@ -171,6 +171,17 @@
 		$db->db_query($sql);
 		$sql = "UPDATE {$target}options SET option_value = '{$title}' WHERE option_id = 3";
 		$db->db_query($sql);
+
+		$sql = "UPDATE {$target}options SET option_name = '{$target}user_roles' WHERE  option_id = 92";
+		$db->db_query($sql);
+		$sql = "UPDATE {$target}usermeta SET meta_key = '{$target}capabilities' WHERE umeta_id = 12";
+		$db->db_query($sql);
+		$sql = "UPDATE {$target}usermeta SET meta_key = '{$target}user_level' WHERE umeta_id = 13";
+		$db->db_query($sql);
+
+		//UPDATE 7baiducom_options SET option_name = '7baiducom_user_roles' WHERE  option_id = 92;
+		//UPDATE 7baiducom_usermeta SET meta_key = '7baiducom_capabilities' WHERE umeta_id = 12;
+		//UPDATE 7baiducom_usermeta SET meta_key = '7baiducom_user_level' WHERE umeta_id = 13;
 	}
 
 	/**
