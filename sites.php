@@ -216,7 +216,7 @@
 	 */
 	function init_bash(){
 		//挪动nginx配置文件
-		$content.= " /usr/local/nginx/sbin/nginx -s reload \n";
+		$content= " /usr/local/nginx/sbin/nginx -s reload \n";
 		file_put_contents('zhandian.sh',$content);
 	}
 
