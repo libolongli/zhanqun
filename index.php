@@ -38,6 +38,7 @@
     <!-- jqGrid -->
     <script src="js/grid.locale-cn.js?0820"></script>
     <script src="js/jquery.jqGrid.min.js?0821"></script>
+    <script src="js/layer.min.js"></script>
     <!-- 自定义js -->
     <script>
         $(document).ready(function () {
@@ -93,12 +94,11 @@
                 pager: "#pager_list_2",
                 viewrecords: true,
                 caption: "默认后台管理员用户名/密码 <span style='color:red'>(admin/123qwert)</span>",
-                multiselect:true,  //多选
                 add: true,
-                edit: true,
                 addtext: '添加站点',
                 edittext: '修改站点',
                 editurl:'sites.php?type=edit',
+                multiselect: false,
                 hidegrid: false
             });
 
@@ -110,7 +110,7 @@
             $("#table_list_2").jqGrid('navGrid', '#pager_list_2', {
                 edit: false,
                 add: true,
-                del: true,
+                del: false,
                 search: false
             },{  //修改(添加/删除)的时候的参数
                 // height: 150,
@@ -136,16 +136,6 @@
                     }
                     return [true,''];
                 }
-            },{
-                top:300,
-                left:700,
-                afterSubmit:function(resposedata){
-                    var data = JSON.parse(resposedata.responseText);
-                    if(!data.status){
-                        alert(data.msg);
-                    }
-                    return [true,''];
-                }
             }
             );
 
@@ -155,6 +145,41 @@
                 $('#table_list_2').setGridWidth(width);
             });
         });
+
+
+        function delDomain(id){
+
+        	//先输入密码
+        	layer.open({
+                type: 1,
+                area: ['420px', '240px'],
+                skin: 'layui-layer-rim', //加上边框
+                content: '<div style="padding:20px;">密码 : <input type="password"  id="password"/></div>',
+                title:'请输入密码',
+                closeBtn :2,
+                btn: ['确定', '取消', ],
+                yes: function(index, layero){
+				   var pass = $('#password').val();
+				   layer.closeAll();
+				  	$.ajax({
+					  type: 'POST',
+					  url: 'sites.php?type=edit',
+					  data: {"id":id,"password":pass,"oper":"del"},
+					  success: function(resposedata){
+					  	var data = JSON.parse(resposedata);
+					  		layer.alert(data.msg); 
+					  	 	jQuery("#table_list_2").jqGrid('setGridParam',{}).trigger('reloadGrid');//重新载入
+					  }
+					});
+
+				  },btn2: function(index, layero){
+				   	layer.closeAll();
+				  }
+                
+            })
+        }
+
+
     </script>
 
 </body>

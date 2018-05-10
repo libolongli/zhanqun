@@ -63,7 +63,7 @@
 		$ar = $db->db_getAll('SELECT * FROM wp_sites');
 		if(!$ar) $ar = array();
 		foreach ($ar as  &$value) {
-			$value['op'] = "<a href='http://www.{$value['domain']}/wp-admin/' target='_blank'>后台登陆</a>";
+			$value['op'] = "<a href='http://www.{$value['domain']}/wp-admin/' target='_blank'>后台登陆</a>&nbsp;&nbsp;&nbsp;<a href='javascript:;' onclick='delDomain({$value['id']})'>删除</a>";
 		}
 		$data['total'] = 1;
 		$data['records'] = count($ar);
@@ -80,13 +80,19 @@
 	 */
 	function del_data($db){
 		$data = $_POST;
-			
 		$ids = explode(',',$data['id']);
+		
+		if($data['password'] != 'woaizhongguo'){
+			echo json_encode(array('status'=>true,'msg'=>'密码错误'));
+			exit;
+		}
 		foreach ($ids as  $id) {
 			 del_single($db,$id);
 		}
 
-		exit(json_encode(array('status'=>true,'msg'=>'删除成功')));
+
+		echo json_encode(array('status'=>true,'msg'=>'删除成功'));
+		exit;
 	}
 
 	function del_single($db,$id){
