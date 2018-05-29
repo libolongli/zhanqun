@@ -1,5 +1,6 @@
 <?php
 	
+	ini_set('display_errors','Off');
 	/**
 	 * 获取site列表 
 	 */

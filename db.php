@@ -1,5 +1,4 @@
 <?php
-
     //封装一个DB类，用来专门操作数据库，以后凡是对数据库的操作，都由DB类的对象来实现
     class DB{
         //属性
@@ -42,15 +41,15 @@
         */
         private function connect(){
             //mysql扩展连接
-            $this->link = mysql_connect($this->host . ':' . $this->port,$this->user,$this->pass);
+            $this->link = mysqli_connect($this->host . ':' . $this->port,$this->user,$this->pass);
 
             //判断结果
             if(!$this->link){
                 //结果出错了
                 //暴力处理，如果是真实线上项目（生产环境）必须写入到日志文件
                 echo '数据库连接错误：<br/>';
-                echo '错误编号' . mysql_errno() . '<br/>';
-                echo '错误内容' . mysql_error() . '<br/>';
+                echo '错误编号' . mysqli_errno() . '<br/>';
+                echo '错误内容' . mysqli_error() . '<br/>';
                 exit;
             }
         }
@@ -80,7 +79,7 @@
             $this->db_query($sql);
             
             //成功返回自增ID
-            return mysql_affected_rows() ? mysql_insert_id() : FALSE;
+            return mysqli_affected_rows() ? mysqli_insert_id() : FALSE;
         }
 
         /*
@@ -93,7 +92,7 @@
             $this->db_query($sql);
 
             //判断结果
-            return mysql_affected_rows() ? mysql_affected_rows() : FALSE;
+            return mysqli_affected_rows() ? mysqli_affected_rows() : FALSE;
         }
 
         /*
@@ -106,7 +105,7 @@
             $this->db_query($sql);
 
             //判断结果
-            return mysql_affected_rows() ? mysql_affected_rows() : FALSE;
+            return mysqli_affected_rows() ? mysqli_affected_rows() : FALSE;
         }
 
         /*
@@ -119,7 +118,7 @@
             $res = $this->db_query($sql);
 
             //判断返回
-            return mysql_num_rows($res) ? mysql_fetch_assoc($res) : FALSE;
+            return mysqli_num_rows($res) ? mysqli_fetch_assoc($res) : FALSE;
         }
 
         /*
@@ -132,12 +131,12 @@
             $res = $this->db_query($sql);
 
             //判断返回
-            if(mysql_num_rows($res)){
+            if(mysqli_num_rows($res)){
                 //循环遍历
                 $list = array();
                 
                 //遍历
-                while($row = mysql_fetch_assoc($res)){
+                while($row = mysqli_fetch_assoc($res)){
                     $list[] = $row;
                 }
 
@@ -150,21 +149,20 @@
         }
 
         /*
-         * mysql_query错误处理
+         * mysqli_query错误处理
          * @param1 string $sql，需要执行的SQL语句
          * @return mixed，只要语句不出错，全部返回
         */
         public function db_query($sql){
             //发送SQL
-            $res = mysql_query($sql);
-
+            $res = $this->link->query($sql);
             //判断结果
             if(!$res){
                 //结果出错了
                 //暴力处理，如果是真实线上项目（生产环境）必须写入到日志文件
                 echo '语句出现错误：<br/>';
-                echo '错误编号' . mysql_errno() . '<br/>';
-                echo '错误内容' . mysql_error() . '<br/>';
+                echo '错误编号' . mysqli_errno() . '<br/>';
+                echo '错误内容' . mysqli_error() . '<br/>';
                 exit;
             }
             //没有错误
