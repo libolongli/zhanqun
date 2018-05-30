@@ -160,7 +160,7 @@
             if(!$res){
                 //结果出错了
                 //暴力处理，如果是真实线上项目（生产环境）必须写入到日志文件
-                echo '语句出现错误：<br/>';
+                echo '语句出现错误：<br/>'.$sql;
                 echo '错误编号' . mysqli_errno() . '<br/>';
                 echo '错误内容' . mysqli_error() . '<br/>';
                 exit;
