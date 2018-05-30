@@ -140,7 +140,7 @@
 		$insert_data['template'] = $data['template'];
 		
 		$r = $db->db_getRow("SELECT * FROM wp_sites  ORDER BY id DESC");
-		$r['id'] = $r['id']++;
+		$r['id'] = $r['id'] + 1;
 		$insert_data['prefix'] = 'wp'.$r['id'].'_';
 		// $insert_data['prefix'] =  str_replace('.','',$insert_data['domain']).'_';
 		
