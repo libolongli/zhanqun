@@ -67,7 +67,7 @@
 		$ar = $db->db_getAll('SELECT * FROM wp_sites');
 		if(!$ar) $ar = array();
 		foreach ($ar as  &$value) {
-			$value['op'] = "<a href='http://www.{$value['domain']}/wp-admin/' target='_blank'>后台登陆</a>&nbsp;&nbsp;&nbsp;<a href='javascript:;' onclick='delDomain({$value['id']})'>删除</a>";
+			$value['op'] = "<a href='http://{$value['domain']}/wp-admin/' target='_blank'>后台登陆</a>&nbsp;&nbsp;&nbsp;<a href='javascript:;' onclick='delDomain({$value['id']})'>删除</a>";
 		}
 		$data['total'] = 1;
 		$data['records'] = count($ar);
@@ -189,9 +189,9 @@
 			$db->db_query($sql2);
 		}
 
-		$sql = "UPDATE {$target}options SET option_value = 'http://www.{$domain}' WHERE option_id = 1";
+		$sql = "UPDATE {$target}options SET option_value = 'http://{$domain}' WHERE option_id = 1";
 		$db->db_query($sql);
-		$sql = "UPDATE {$target}options SET option_value = 'http://www.{$domain}' WHERE option_id = 2";
+		$sql = "UPDATE {$target}options SET option_value = 'http://{$domain}' WHERE option_id = 2";
 		$db->db_query($sql);
 		$sql = "UPDATE {$target}options SET option_value = '{$title}' WHERE option_id = 3";
 		$db->db_query($sql);
