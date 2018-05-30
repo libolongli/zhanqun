@@ -218,7 +218,13 @@
 		$ar = $db->db_getAll('SELECT * FROM wp_sites');
 		foreach ($ar as  $value) {
 			$filename = "nginx/{$value['prefix']}.conf";
-			$content = str_replace('{{domain}}', $value['domain'],file_get_contents('nginx.conf'));
+			//如果是WWW.的域名 nginx 同时写上 根域名的配置
+			if(strpos($value['domain'],'www.')===0){
+				$value['domain'] = str_replace('www.', '', $value['domain']);
+				$content = str_replace('{{domain}}', $value['domain'],file_get_contents('nginx_root.conf'));
+			}else{
+				$content = str_replace('{{domain}}', $value['domain'],file_get_contents('nginx.conf'));
+			}
 			file_put_contents($filename,$content);
 		}
 	}
